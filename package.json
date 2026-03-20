@@ -1,0 +1,11 @@
+{
+  "name": "analytics-project",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "concurrently \"PORT=4000 npm --prefix ingestion start\" \"npm --prefix processor start\" \"PORT=4001 npm --prefix reporting start\" \"npx http-server dashboard -p 8080 --cors\""
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "http-server": "^14.1.1"
+  }
+}

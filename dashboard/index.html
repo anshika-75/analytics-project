@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics Dashboard</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="background-orbs">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+    </div>
+    
+    <div class="container">
+        <header>
+            <div class="header-left">
+                <h1>Analytics<span class="highlight">Pulse</span></h1>
+                <p class="subtitle">Real-time event tracking and statistics.</p>
+            </div>
+            <div class="controls">
+                <input type="date" id="dateSelector" class="glass-input">
+                <button id="refreshBtn" class="glass-button">
+                    Refresh Data
+                </button>
+            </div>
+        </header>
+
+        <div class="status-banner" id="statusBanner">
+            <span class="status-dot"></span>
+            <span id="statusText">System Active & Listening</span>
+        </div>
+
+        <main>
+            <div class="metrics-grid">
+                <div class="metric-card glass-card">
+                    <div class="metric-icon views-icon">👁️</div>
+                    <div class="metric-info">
+                        <h3>Total Views</h3>
+                        <p class="metric-value" id="totalViews">--</p>
+                    </div>
+                </div>
+
+                <div class="metric-card glass-card">
+                    <div class="metric-icon users-icon">👥</div>
+                    <div class="metric-info">
+                        <h3>Unique Users</h3>
+                        <p class="metric-value" id="uniqueUsers">--</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-container glass-card">
+                <div class="chart-header">
+                    <h2>Top Paths Visited</h2>
+                </div>
+                <div class="canvas-wrapper">
+                    <canvas id="pathsChart"></canvas>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

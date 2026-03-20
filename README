@@ -1,0 +1,98 @@
+A lightweight, high-performance event tracking pipeline built using Node.js, Redis, and MongoDB.
+Supports fast event ingestion, background processing, and real-time daily analytics.
+
+
+Client → Ingestion API → Redis Queue → Worker → MongoDB → Reporting API
+
+Ingestion Service: Validates events & pushes them to Redis instantly.
+
+Worker: Consumes queue events, stores raw data, and updates daily aggregates.
+
+Reporting API: Returns total views, unique users, and top paths for a site.
+
+------------- Tech Stack
+
+Node.js (Express)
+
+Redis (queue + unique user sets)
+
+MongoDB (events + daily_aggregates)
+
+Joi (validation)
+
+------------- Project Structure
+analytics-project/
+├── ingestion/
+├── processor/
+├── reporting/
+└── README.md
+
+-------------- Running the System (Local)
+Start Redis
+brew services start redis
+
+Start MongoDB
+brew services start mongodb-community@7.0
+
+Start Services
+
+Run each in separate terminals:
+
+Ingestion
+
+cd ingestion
+npm start
+
+
+Worker
+
+cd processor
+npm start
+
+
+Reporting
+
+cd reporting
+npm start
+
+------------Testing
+Send Event
+curl -X POST http://localhost:3000/event \
+  -H "Content-Type: application/json" \
+  -d '{"site_id":"site-1","event_type":"page_view","path":"/home","user_id":"u1","timestamp":"2025-11-12T12:00:00Z"}'
+
+Get Stats
+curl "http://localhost:3001/stats?site_id=site-1&date=2025-11-12"
+
+--------- Output Example
+{
+  "site_id": "site-1",
+  "date": "2025-11-12",
+  "total_views": 10,
+  "unique_users": 5,
+  "top_paths": [
+    { "path": "/home", "views": 7 }
+  ]
+}
+
+----------- Features
+
+Fast ingestion (non-blocking)
+
+Asynchronous processing via Redis queue
+
+Daily aggregates
+
+Unique users via Redis sets
+
+Graceful shutdown
+
+Health endpoints
+
+------------- Future Improvements
+
+HyperLogLog for uniques
+
+Kafka/SQS for queueing
+
+Dashboard UI

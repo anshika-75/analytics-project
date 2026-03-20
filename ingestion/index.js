@@ -7,7 +7,7 @@ const Joi = require('joi');
 const app = express();
 app.use(bodyParser.json());
 
-const redis = new Redis(); // default localhost:6379
+const redis = process.env.REDIS_URL ? new Redis(process.env.REDIS_URL) : new Redis();
 
 const eventSchema = Joi.object({
   site_id: Joi.string().required(),

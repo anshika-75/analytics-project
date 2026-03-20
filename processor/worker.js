@@ -2,7 +2,7 @@ const Redis = require('ioredis');
 const { MongoClient } = require('mongodb');
 const http = require('http');
 
-const redis = new Redis();
+const redis = process.env.REDIS_URL ? new Redis(process.env.REDIS_URL) : new Redis();
 const mongoUrl = process.env.MONGO_URL || 'mongodb://127.0.0.1:27017';
 const dbName = 'analytics_db';
 

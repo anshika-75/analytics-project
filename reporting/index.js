@@ -2,9 +2,11 @@
 const express = require('express');
 const { MongoClient } = require('mongodb');
 const cors = require('cors');
+const path = require('path');
 
 const app = express();
 app.use(cors());
+app.use(express.static(path.join(__dirname, '../dashboard')));
 const mongoUrl = process.env.MONGO_URL || 'mongodb://127.0.0.1:27017';
 const dbName = 'analytics_db';
 

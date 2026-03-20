@@ -20,7 +20,7 @@ async function fetchAnalytics(date) {
     uniqueUsersEl.textContent = '...';
     
     try {
-        const response = await fetch(`http://localhost:4001/stats?site_id=${currentSiteId}&date=${date}`);
+        const response = await fetch(`/stats?site_id=${currentSiteId}&date=${date}`);
         const data = await response.json();
         
         if (data.error) {

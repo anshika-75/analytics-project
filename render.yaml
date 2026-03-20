@@ -1,0 +1,50 @@
+services:
+  # 1. Provide a temporary free Redis instance
+  - type: redis
+    name: analytics-queue
+    ipAllowList: [] # empty means allow all internal connections
+    plan: free
+
+  # 2. Ingestion API
+  - type: web
+    name: analytics-ingestion
+    env: node
+    buildCommand: npm install
+    startCommand: npm start
+    branch: main
+    rootDir: ingestion
+    envVars:
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: analytics-queue
+          property: connectionString
+
+  # 3. Processor Worker
+  - type: worker
+    name: analytics-worker
+    env: node
+    buildCommand: npm install
+    startCommand: npm start
+    branch: main
+    rootDir: processor
+    envVars:
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: analytics-queue
+          property: connectionString
+      - key: MONGO_URL
+        sync: false # User must provide their own MongoDB Atlas URL in the Render Dashboard
+
+  # 4. Reporting API & Dashboard UI
+  - type: web
+    name: analytics-dashboard
+    env: node
+    buildCommand: cd ../ && npm install http-server --save-dev && cd reporting && npm install
+    startCommand: npm start
+    branch: main
+    rootDir: reporting
+    envVars:
+      - key: MONGO_URL
+        sync: false # User must provide their own MongoDB Atlas URL in the Render Dashboard

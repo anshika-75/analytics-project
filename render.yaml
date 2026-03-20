@@ -21,8 +21,8 @@ services:
           name: analytics-queue
           property: connectionString
 
-  # 3. Processor Worker
-  - type: worker
+  # 3. Processor Worker (Running as Web to be allowed on Free Tier)
+  - type: web
     name: analytics-worker
     plan: free
     env: node

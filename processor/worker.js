@@ -1,6 +1,6 @@
-// processor/worker.js  (improved: Redis sets for unique users + graceful shutdown)
 const Redis = require('ioredis');
 const { MongoClient } = require('mongodb');
+const http = require('http');
 
 const redis = new Redis();
 const mongoUrl = process.env.MONGO_URL || 'mongodb://127.0.0.1:27017';
@@ -14,6 +14,11 @@ async function start() {
   const db = client.db(dbName);
   const eventsColl = db.collection('events');
   const aggColl = db.collection('daily_aggregates');
+
+  // Dummy server to satisfy Render's Web Service requirement on the Free Tier
+  const port = process.env.PORT || 10000;
+  const server = http.createServer((req, res) => { res.writeHead(200); res.end('Worker is alive'); });
+  server.listen(port, () => console.log(`Worker dummy server listening on ${port} for Render health checks`));
 
   console.log('Worker connected to MongoDB, waiting for events...');
 

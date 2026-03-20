@@ -8,6 +8,7 @@ services:
   # 2. Ingestion API
   - type: web
     name: analytics-ingestion
+    plan: free
     env: node
     buildCommand: npm install
     startCommand: npm start
@@ -23,6 +24,7 @@ services:
   # 3. Processor Worker
   - type: worker
     name: analytics-worker
+    plan: free
     env: node
     buildCommand: npm install
     startCommand: npm start
@@ -40,6 +42,7 @@ services:
   # 4. Reporting API & Dashboard UI
   - type: web
     name: analytics-dashboard
+    plan: free
     env: node
     buildCommand: cd ../ && npm install http-server --save-dev && cd reporting && npm install
     startCommand: npm start
